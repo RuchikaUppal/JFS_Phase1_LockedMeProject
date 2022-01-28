@@ -44,78 +44,82 @@ public class LockedMeClass {
 	}
 	
 	// This method validates the user choice and performs the generic operations
-	public static void genericOperations()
+	public static void genericOperations(Scanner sc)
 	{
-		Scanner sc= new Scanner(System.in);
-		displayMainMenu();
-		try
-		{	
-			int choise=Integer.parseInt(sc.nextLine());
-			
-			switch(choise)
+		int choise=0;
+		do
+		{
+			displayMainMenu();
+			try
+			{	
+				choise=Integer.parseInt(sc.nextLine());
+				
+				switch(choise)
+				{
+					case 1 : 
+						displayFiles();
+						break;
+					case 2 :
+						displaySubMenu();
+						businessLevelOperations(sc);
+						break;
+					case 3 :
+						System.exit(0);
+						break;
+					default :
+						System.out.println("Invalid option");
+						break;
+				}
+			}
+			catch(Exception ex)
 			{
-				case 1 : 
-					displayFiles();
-					break;
-				case 2 :
-					displaySubMenu();
-					businessLevelOperations();
-					break;
-				case 3 :
-					System.exit(0);
-					break;
-				default :
-					System.out.println("Invalid option");
-					break;
+				System.out.println(errorMessage);
 			}
 		}
-		catch(Exception ex)
-		{
-			System.out.println(errorMessage);
-		}
-		finally
-		{
-			sc.close();
-		}
+		while(choise>0);
 		
 	}
 	
 	// This method validates the user choice and performs the generic operations
-	public static void businessLevelOperations()
+	public static void businessLevelOperations(Scanner sc)
 	{
-		Scanner sc= new Scanner(System.in);
-		try
+		int ch=0;
+		do 
 		{
-			
-			int ch=Integer.parseInt(sc.nextLine());
-			
-			switch (ch)
+			try
 			{
-				case 1:
-					addNewFile();
-					break;
-				case 2:
-					deleteFile();
-					break;
-				case 3:
-					searchFile();
-					break;
-				case 4:
-					genericOperations();
-					break;
-				default :
-					System.out.println("Invalid option");
-					break;
+				ch=Integer.parseInt(sc.nextLine());
+				
+				switch (ch)
+				{
+					case 1:
+						addNewFile(sc);
+						displaySubMenu();
+						break;
+					case 2:
+						deleteFile(sc);
+						displaySubMenu();
+						break;
+					case 3:
+						searchFile(sc);
+						displaySubMenu();
+						break;
+					case 4:
+						genericOperations(sc);
+						break;
+					default :
+						System.out.println("Invalid option");
+						break;
+				}
 			}
+			catch(Exception ex)
+			{
+				System.out.println(errorMessage);
+			}
+			
 		}
-		catch(Exception ex)
-		{
-			System.out.println(errorMessage);
-		}
-		finally
-		{
-			sc.close();
-		}
+		while(ch>0);
+		
 	}
 	//This method displays the files in the directory
 	public static void displayFiles() 
@@ -145,10 +149,8 @@ public class LockedMeClass {
 	}
 		
 	//This method creates a new file and allows the user to write to it	
-	public static void addNewFile() 
+	public static void addNewFile(Scanner sc) 
 	{
-		Scanner sc= new Scanner(System.in);
-		
 		try
 		{
 			String fileName;
@@ -172,18 +174,13 @@ public class LockedMeClass {
 		{
 			System.out.println(errorMessage);
 		}
-		finally
-		{
-			sc.close();
-		}
 	}
 	
 	// This method searches for a user specified file
-	public static void searchFile() 
+	public static void searchFile(Scanner sc) 
 	{
 		File directory = new File(folderPath);
 		
-		Scanner sc= new Scanner(System.in);
 		try
 		{
 			String fileName;
@@ -209,16 +206,13 @@ public class LockedMeClass {
 			System.out.println(errorMessage);
 		}
 		
-		finally
-		{
-			sc.close();
-		}
 	}
+	
     //This method will delete the user specified file from the directory
-	public static void deleteFile()
+	public static void deleteFile(Scanner sc)
 	{
 		File directory = new File(folderPath);
-		Scanner sc= new Scanner(System.in);
+		
 		try
 		{
 			String fileName;
@@ -247,17 +241,15 @@ public class LockedMeClass {
 		{
 			System.out.println(errorMessage);
 		}
-		
-		finally
-		{
-			sc.close();
-		}
 	}
 
 	public static void main(String[] args) 
 	{
-		genericOperations();
-
+		Scanner sc= new Scanner(System.in);
+		
+		genericOperations(sc);
+		
+		sc.close();
 	}
 
 }
